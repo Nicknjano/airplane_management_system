@@ -16,12 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from airline_management.views import index,home,booking,contactus
+from airline_management.views import index,home,booking,contactus,user,newflight,manageflights,newairbus,accounts
 
 urlpatterns = [
     path('',index,name='index'),
     path('home/',home,name='home'),
     path('booking/',booking,name='booking'),
     path('contactus/',contactus,name='contactus'),
+    path('user/',user,name='user'),
+    path('newflight/',newflight,name='newflight'),
+    path('manageflights/',manageflights,name='manageflights'),
+    path('newairbus/',newairbus,name='newairbus'),
+    path('accounts/',accounts,name='accounts'),
     path("admin/", admin.site.urls),
 ]
