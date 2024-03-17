@@ -27,14 +27,14 @@
                           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
                             <span class="icon-bar"></span>                       
                           </button>
-                          <a class="navbar-brand" href="index.html">Airline-X</a>
+                          <a class="navbar-brand" href="{% url 'index' %}">">Airline-X</a>
                         </div>
                         <div class="collapse navbar-collapse" id="myNavbar">
                             <ul class="nav navbar-nav">
-                                <li><a href="index.html">Home</a></li>
-                                <li class="active"><a href="booking.html">Booking</a></li>
+                                <li><a href="{% url 'index' %}">">Home</a></li>
+                                <li class="active"><a href="{% url 'booking' %}"></a>">Booking</a></li>
                                 <li><a href="#">About Us</a></li>
-                                <li><a href="contactus.html">Contact Us</a></li>
+                                <li><a href="{% url 'contactus' %}">">Contact Us</a></li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
                                 <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></a></li>
@@ -98,7 +98,7 @@
                                             </div>
                                             </div>
                                             <br>
-                                            <div style="">
+                                            <div>
                                                 <button class="btn btn-primary btn-block trans-input-area" type="submit">Click to Pay</button>
                                             </div>
                                         </form>
@@ -112,7 +112,7 @@
                 </div>
 
             <!-- Footer -->
-            <footer id="footer" style="">
+            <footer id="footer">
                 <div class="container-fluid">
                     <ul class="icons">
                         <li><a href="#" class="fa fa-twitter" style="color: grey"></a></li>

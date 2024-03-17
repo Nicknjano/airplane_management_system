@@ -29,14 +29,14 @@
 						  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
 							<span class="icon-bar"></span>                       
 						  </button>
-						  <a class="navbar-brand" href="index.html">Airline-X</a>
+						  <a class="navbar-brand" href="{% url 'index' %}">">Airline-X</a>
 						</div>
 						<div class="collapse navbar-collapse" id="myNavbar">
 							<ul class="nav navbar-nav">
-								<li><a href="index.html">Home</a></li>
-								<li class="active"><a href="booking.html">Booking</a></li>
+								<li><a href="{% url 'index' %}">">Home</a></li>
+								<li class="active"><a href="{% url 'booking' %}">">Booking</a></li>
 								
-								<li><a href="contactus.html">Contact Us</a></li>
+								<li><a href="{% url 'contactus' %}">">Contact Us</a></li>
 							</ul>
 							<ul class="nav navbar-nav navbar-right">
 								<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></a></li>
@@ -161,8 +161,8 @@
 										<br>
 										<br>
 									<div class="input-group-btn">
-									<button class="btn btn-primary trans-input-area" href="booking.html" style="width: 40%; float: left;"><a href="booking.html" style="color: white">back</a></button>
-									<button class="btn btn-primary trans-input-area" href="payement.html" type="submit" style="width: 40%; float:right;" ><a href="itineary.html" style="color: white">Continue</a></button>
+									<button class="btn btn-primary trans-input-area" href="{% url 'booking' %}">" style="width: 40%; float: left;"><a href="booking.html" style="color: white">back</a></button>
+									<button class="btn btn-primary trans-input-area" href="{% url 'payement' %}">" type="submit" style="width: 40%; float:right;" ><a href="itineary.html" style="color: white">Continue</a></button>
 
 									</div>
 
