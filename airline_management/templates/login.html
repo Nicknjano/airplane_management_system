@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'icons/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'css/mycss.css' %}">
+</head>
+<body>
+    <nav>
+        <a href="{% url 'index' %}">SkyOps</a>
+            <ul>
+                <li><a href="{% url 'login' %}"><button>Sign In</button></a></li>
+            </ul>
+    </nav>
+    <div class="l-form">
+        <form class="form" method="post">
+            <h1 class="form__title">Login</h1>
+            {% csrf_token %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="error">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+            <div class="form__div">
+                <input type="text" class="form__input" placeholder=" " id="id_username" name="username" required>
+                <label for="id_username" class="form__label">Username</label>
+            </div>
+            {% for error in form.username.errors %}
+                <p class="error">{{ error }}</p>
+            {% endfor %}
+            <div class="form__div">
+                <input type="password" class="form__input" placeholder=" " id="id_password" name="password" required>
+                <label for="id_password" class="form__label">Password</label>
+            </div>
+            {% for error in form.password.errors %}
+                <p class="error">{{ error }}</p>
+            {% endfor %}
+            <button type="submit" class="form__button">Login</button>   
+        </form>
+    </div>
+</body>
+</html>

@@ -1,151 +1,269 @@
 {% load static %}
 <!DOCTYPE HTML>
-
 <html>
-	<head>
-		<title>Booking</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		<script src="{% static 'js/myjs.js' %}"></script>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-				<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Poppins">
+<head>
+    <title>Booking</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/myjs.js' %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Poppins">
+    <link rel="stylesheet" href="{% static 'css/mycss.css' %}">
+</head>
+<style type="text/css">
+    label {
+        color: white;
+    }
+</style>
+<body>
+<nav class="navbar navbar-inverse" style="border-radius:0px !important; margin:0;border: 0">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'index' %}">Airline-X</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li class="active"><a href="{% url 'booking' %}">Booking</a></li>
+                <li><a href="{% url 'contactus' %}">Contact Us</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></a></li>
+            </ul>
+            <form class="navbar-form navbar-right">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+<div class="background-wrapper" style="background-image: url(images/airline/aa.jpg);">
+    <!--header-->
+    <div class="container-fluid">
+        <header>
+            <h2>Book Your Flight</h2>
+            <hr>
+        </header>
+        <!--panel-->
+        <div class="col-sm-8 col-sm-offset-2">
+            <div class="panel-group">
+                <div class="panel panel-default panel-transparent">
+                    <div class="panel-heading">
+                        <legend style="text-align: center;">Flight Information</legend>
+                    </div>
 
-				<link rel="stylesheet" href="{% static 'css/mycss.css' %}">
-	</head>
-	<style type="text/css">
-				label{
-			color: white;
-		}
-	</style>
-	<body>
-				<nav class="navbar navbar-inverse" style="border-radius:0px !important; margin:0;border: 0">
-					<div class="container-fluid">
-						<div class="navbar-header">
-						  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-							<span class="icon-bar"></span>                       
-						  </button>
-						  <a class="navbar-brand" href="{% url 'index' %}">">Airline-X</a>
-						</div>
-						<div class="collapse navbar-collapse" id="myNavbar">
-							<ul class="nav navbar-nav">
-								<li><a href="{% url 'index' %}">">Home</a></li>
-								<li class="active"><a href="{% url 'booking' %}">">Booking</a></li>
-								
-								<li><a href="{% url 'contactus' %}">">Contact Us</a></li>
-							</ul>
-							<ul class="nav navbar-nav navbar-right">
-								<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></a></li>
-							</ul>
-							
-							<form class="navbar-form navbar-right">
-							  <div class="input-group">
-							    <input type="text" class="form-control" placeholder="Search">
-							    <div class="input-group-btn">
-							      <button class="btn btn-default" type="submit">
-							        <i class="glyphicon glyphicon-search"></i>
-							      </button>
-							    </div>
-							  </div>
-							</form>
-						</div>	
-					</div>
-				</nav>
-				
-				
-
-				<div class="background-wrapper" style="background-image: url(images/airline/aa.jpg);">
-				
-				<!--header-->
-
-				<div class="container-fluid">
-					<header>
-						<h2>Book Your Flight</h2>
-						<hr>
-					</header>
-
-
-					<!--panel-->
-					<div class="col-sm-8 col-sm-offset-2">
-						<div class="panel-group">
-						  	<div class="panel panel-default panel-transparent">
-						    	<div class="panel-heading">
-						    		<legend style="text-align: center;">Flight Information</legend>
-						    	</div>
-						    	<div class="panel-body">
-						    		<div class="input-group">
-										<label for="class">Class</label>
-										<select class="form-control trans-input-area" id="class">
-										<option>Economy</option>
-										<option>Business</option>
-										<option>First</option>
-										</select>
-										<a href="#"></a>
-									</div>
-									<form class="form-inline">
-										<br>
-										<div>
-											<div class="input-group">
-												<label for="from">From</label>
-												<input type="text" class="form-control trans-input-area" placeholder="Origin" name=""  id="from" required>
-											</div>
-											<div class="input-group">
-												<label for="to">To</label>
-												<input type="text" class="form-control trans-input-area" placeholder="Destination" name="" id="to" required>
-											</div>
-										</div>
-										<br>
-										<div>
-											<div class="input-group">
-												<label for="Departure">Departure Date</label>
-												<input type="date" class="form-control trans-input-area" name="date1" min="2015-01-01"  required>
-											</div>
-											<div class="input-group">
-												<label>Return Date</label>
-												<input type="date" class="form-control trans-input-area" name="date2" max="2017-12-31" id="Return" >
-											</div>
-										</div>
-										<br>
-										<div>
-											<div class="input-group">
-												<label for="Adults">Adults</label>
-												<input type="number" class="form-control trans-input-area" id="Adults" value="1" name="" min="1" required>
-											</div>
-											<div class="input-group">
-												<label>Children</label>
-												<input type="number" class="form-control trans-input-area" id="Children" value="0" name="" min="0">
-											</div>
-										</div>
-										<br>
-										<div class="input-group-btn" style="text-align: right !important; ">
-										<button id="submit" href="{% url 'booking2' %}">" class="btn btn-primary trans-input-area" type="submit" style="width: 30%"><a href="booking2.html" style="color: white">Continue</a></button>
-										<br>
-										</div>
-									</form>
+					<form method="post" action="{% url 'booking' %}" class="form-inline {% if form.errors %}has-error{% endif %}">
+						{% csrf_token %}
+						<div class="panel-body">
+							<div class="input-group">
+								<label for="class">Class</label>
+								<select class="form-control trans-input-area" id="class_field" name="class_field">
+									<option>Economy</option>
+									<option>Business</option>
+									<option>First</option>
+								</select>
+								<a href="#"></a>
+							</div>
+							<br>
+							<div>
+								<div class="input-group">
+									<label for="from">From:</label>
+									<select class="form-control trans-input-area" id="from_field" name="from_field">
+										<option>Nairobi</option>
+										<option>Kisumu</option>
+										<option>Mombasa</option>
+										<option>California</option>
+										<option>NewYork</option>
+										<option>Michigan</option>
+									</select>
+									<a href="#"></a>
+								</div>
+								<div class="input-group">
+									<label for="to">To:</label>
+									<select class="form-control trans-input-area" id="to_field" name="to_field">
+										<option>Nairobi</option>
+										<option>Kisumu</option>
+										<option>Mombasa</option>
+										<option>California</option>
+										<option>NewYork</option>
+										<option>Michigan</option>
+									</select>
+									<a href="#"></a>
 								</div>
 							</div>
+							<br>
+							<div>
+								<div class="input-group">
+									<label for="departure_date">Departure Date</label>
+									<input type="date" class="form-control trans-input-area" id="departure_date" name="departure_date" min="{{ today }}" required>
+								</div>
+								<div class="input-group">
+									<label for="return_date">Return Date</label>
+									<input type="date" class="form-control trans-input-area" id="return_date" name="return_date" min="{{ today }}">
+								</div>
+							</div>
+							<br>
+							<div>
+								<div class="input-group">
+									<label for="Adults">Adults</label>
+									<input type="number" class="form-control trans-input-area" id="adults" name="adults" value="1" min="1" required>
+								</div>
+								<div class="input-group">
+									<label for="Children">Children</label>
+									<input type="number" class="form-control trans-input-area" id="children" name="children" value="0" min="0">
+								</div>
+								<div class="input-group">
+									<label for="price">Price</label>
+									<input type="number" class="form-control trans-input-area" id="price" name="price" min="0" readonly>
+								</div>
+							</div>
+							<!-- Display form errors -->
+							{% if form.errors %}
+							<div class="alert alert-danger">
+								<strong>Error:</strong> Please correct the following errors.
+								<ul>
+									{% for field, errors in form.errors.items %}
+									{% for error in errors %}
+									<li>{{ field|title }}: {{ error }}</li>
+									{% endfor %}
+									{% endfor %}
+								</ul>
+							</div>
+							{% endif %}
+							<!-- Continue button -->
+							<button type="submit" class="btn btn-primary trans-input-area" style="width: 30%">Continue</button>
 						</div>
-					</div>
-				</div>
-			</div>
+					</form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer -->
+<footer id="footer">
+    <div class="container-fluid">
+        <ul class="icons">
+            <li><a href="#" class="fa fa-twitter" style="color: grey"></a></li>
+            <li><a href="#" class="fa fa-facebook" style="color: grey"></a></li>
+            <li><a href="#" class="fa fa-instagram" style="color: grey"></a></li>
+            <li><a href="#" class="fa fa-envelope" style="color: grey"></a></li>
+        </ul>
+    </div>
+    <div class="copyright">
+        &copy; Airline-X.
 
+ All rights reserved.
+    </div>
+</footer>
 
-			<!-- Footer -->
-			<footer id="footer">
-				<div class="container-fluid">
-					<ul class="icons">
-						<li><a href="#" class="fa fa-twitter" style="color: grey"></a></li>
-						<li><a href="#" class="fa fa-facebook" style="color: grey"></a></li>
-						<li><a href="#" class="fa fa-instagram" style="color: grey"></a></li>
-						<li><a href="#" class="fa fa-envelope" style="color: grey"></a></li>
-					</ul>
-				</div>
-				<div class="copyright">
-					&copy; Airline-X. All rights reserved.
-				</div>
-			</footer>
+</body>
+<script>
+    // Get today's date in the format "YYYY-MM-DD"
+var today = new Date().toISOString().split('T')[0];
+// Set the minimum date for departure and return date fields to today
+document.getElementById("departure_date").setAttribute("min", today);
+document.getElementById("return_date").setAttribute("min", today);
+document.getElementById("bookingForm").onsubmit = function() {
+    // Log form data for debugging
+    console.log($('#bookingForm').serialize());
+    return validateDates();
+};
 
-	</body>
+// Function to validate date fields
+function validateDates() {
+    var departureDate = document.getElementById("departure_date").value;
+    var returnDate = document.getElementById("return_date").value;
+
+    // Check if departure date is earlier than today
+    if (departureDate < today) {
+        alert("Departure date cannot be earlier than today.");
+        return false;
+    }
+
+    // Check if return date is earlier than departure date
+    if (returnDate && returnDate < departureDate) {
+        alert("Return date cannot be earlier than departure date.");
+        return false;
+    }
+
+    return true; // Dates are valid
+}
+
+// Attach the validateDates function to the form's onsubmit event
+document.getElementById("bookingForm").onsubmit = function() {
+    return validateDates();
+};
+
+</script>
+<script>
+	$(document).ready(function() {
+    // Function to update price based on selected route and number of adults
+    function updatePrice() {
+        var from = $('#from_field').val();
+        var to = $('#to_field').val();
+        var adults = parseInt($('#adults').val());
+        var price = 0;
+
+        // Calculate price based on route and number of adults
+        if (from && to && adults) {
+            if (from === 'Nairobi' && to === 'Kisumu') {
+                price = 100 * adults;
+            } else if (from === 'Nairobi' && to === 'Mombasa') {
+                price = 200 * adults;
+            } else if (from === 'Nairobi' && to === 'California') {
+                price = 8000 * adults;
+            } else if (from === 'Nairobi' && to === 'NewYork') {
+                price = 2000 * adults;
+            } else if (from === 'Nairobi' && to === 'Michigan') {
+                price = 200 * adults;
+            }
+        }
+
+        // Update the price field
+        $('#price').val(price);
+    }
+
+    // Call the updatePrice function when the form fields change
+    $('#from_field, #to_field, #adults').change(function() {
+        updatePrice();
+    });
+
+    // Intercept form submission and handle it with JavaScript
+    $('#bookingForm').submit(function(event) {
+        // Prevent default form submission behavior
+        event.preventDefault();
+
+        // Call the validateDates function before submitting the form
+        if (validateDates()) {
+            // If dates are valid, submit the form using AJAX
+            $.ajax({
+                type: $(this).attr('method'),
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Handle success response, e.g., redirect
+                    window.location.href = response.redirect_url; // Change 'redirect_url' to your actual redirect URL
+                },
+                error: function(xhr, errmsg, err) {
+                    // Handle error response
+                    console.log(xhr.status + ": " + xhr.responseText); // Log error message
+                    // You can handle the error in a way appropriate for your application
+                }
+            });
+        }
+    });
+});
+</script>
 </html>
