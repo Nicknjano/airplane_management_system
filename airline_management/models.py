@@ -73,4 +73,11 @@ class Flight(models.Model):
     journey_hours = models.IntegerField()
     intervals = models.IntegerField()
     capacity = models.IntegerField()
-    # Define seat information and price fields as needed
+
+
+class Airbus(models.Model):
+    airbus_no = models.IntegerField(unique=True)
+    capacity = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"Airbus {self.airbus_no}"

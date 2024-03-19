@@ -10,7 +10,25 @@ from django.contrib import messages
 
 from .forms import BookingForm,FlightForm
 from django.http import JsonResponse
-from .models import Flight 
+from .models import Flight, Airbus
+
+def add_airbus(request):
+    if request.method == 'POST':
+        airbus_no = request.POST.get('airbus_no')
+        capacity = request.POST.get('capacity')
+        
+        # Create a new Airbus instance
+        Airbus.objects.create(airbus_no=airbus_no, capacity=capacity)
+        
+        # Redirect to a success page or another appropriate view
+        return redirect('newairbus')
+    else:
+        # Handle GET requests if needed
+        pass
+
+def newairbus(request):
+    airbuses = Airbus.objects.all()
+    return render(request, 'newairbus.html', {'airbuses': airbuses})
 
 def delete_flight(request, flight_id):
     # Retrieve the flight object from the database
@@ -103,8 +121,6 @@ def contactus(request):
     return render(request,'contactus.html')
 def user(request):
     return render(request,'user.html')
-def newairbus(request):
-    return render(request,'newairbus.html')
 def accounts(request):
     if request.method == 'POST':
         email = request.POST.get('email')
