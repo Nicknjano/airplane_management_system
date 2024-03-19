@@ -72,4 +72,5 @@ class Flight(models.Model):
     departure_time = models.TimeField()
     journey_hours = models.IntegerField()
     intervals = models.IntegerField()
+    capacity = models.IntegerField()
     # Define seat information and price fields as needed

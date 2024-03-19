@@ -105,60 +105,38 @@ position: relative;
 					<button class="btn btn-primary"><a href="{% url 'newflight' %}" style="color: white"><i class="fa fa-plus"></i> New Flight</a></button>
 				</div>
 				<br>
-			  	<table class="table table-striped table-hover">
-				    <thead>
-					    <tr>
-					    	<th>#</th>
-					        <th>FlightNo</th>
-					        <th>From</th>
-					        <th>To</th>
-					        <th>Departure Date</th>
-					        <th>Time</th>
-					        <th>Capacity</th>
-					    </tr>
-				    </thead>
-				    <tbody>
-					    <tr>
-					    	<td>1</td>
-					    	<td>4091</td>
-					        <td>Lahore</td>
-					        <td>Karachi</td>
-					        <td>20/10/2017</td>
-					        <td>04:30 pm</td>
-					        <td>200</td>
-					        <td>
-						  	<a href=""><i class="fa fa-pencil"></i></a>
-						  	<a href="#myModal" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
-					  		</td>
-					    </tr>
-					    <tr>
-					    	<td>2</td>
-					    	<td>1023</td>
-					        <td>Lahore</td>
-					        <td>London</td>
-					        <td>20/10/2017</td>
-					        <td>04:50 pm</td>
-					        <td>300</td>
-					        <td>
-						  	<a href=""><i class="fa fa-pencil"></i></a>
-						  	<a href="#myModal" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
-					  		</td>
-					    </tr>
-					    <tr>
-					    	<td>3</td>
-					    	<td>1955</td>
-					        <td>Lahore</td>
-					        <td>Canada</td>
-					        <td>20/10/2017</td>
-					        <td>10:30 pm</td>
-					        <td>150</td>
-					        <td>
-						  	<a href=""><i class="fa fa-pencil"></i></a>
-						  	<a href="#myModal" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
-					  		</td>
-					    </tr>
-				    </tbody>
-			  </table>
+				<table class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>FlightNo</th>
+							<th>From</th>
+							<th>To</th>
+							<th>Departure Date</th>
+							<th>Time</th>
+							<th>Capacity</th>
+							<th>Action</th> <!-- Add a new column for action buttons -->						</tr>
+					</thead>
+					<tbody>
+						{% for flight in flights %}
+						<tr>
+							<td>{{ forloop.counter }}</td>
+							<td>{{ flight.flight_number }}</td>
+							<td>{{ flight.origin }}</td>
+							<td>{{ flight.destination }}</td>
+							<td>{{ flight.departure_date }}</td>
+							<td>{{ flight.departure_time }}</td>
+							<td>{{ flight.capacity }}</td>
+							<td>
+								<!-- Add a delete button with a data-toggle attribute to open the modal -->
+								<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal{{ flight.id }}">
+									<i class="fa fa-trash"></i> Delete
+								</button>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>				
 
 				  <ul class="pagination">
 					  <li ><a href="#">&laquo;</a></li>
@@ -192,14 +170,6 @@ position: relative;
 	  
 	</body>
 </html>
-
-
-
-
-
-
-
-
 
 
 <script type="text/javascript">

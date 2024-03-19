@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from airline_management.views import index,home,booking,booking2,contactus,user,new_flight,manageflights,newairbus,accounts,payement,login_user,itinerary
+from airline_management.views import index,home,booking,booking2,contactus,user,new_flight,manageflights,newairbus,accounts,payement,login_user,itinerary,delete_flight
 
 urlpatterns = [
     path('',index,name='index'),
@@ -28,6 +28,7 @@ urlpatterns = [
     path('itinerary/',itinerary,name='itinerary'),
     path('contactus/',contactus,name='contactus'),
     path('newflight/',new_flight,name='newflight'),
+    path('delete_flight/<int:flight_id>/',delete_flight, name='delete_flight'),
     path('manageflights/',manageflights,name='manageflights'),
     path('newairbus/',newairbus,name='newairbus'),
     path('accounts/',accounts,name='accounts'),

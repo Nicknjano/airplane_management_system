@@ -1,5 +1,5 @@
 
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from .forms import SignupForm,LoginForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
@@ -10,6 +10,24 @@ from django.contrib import messages
 
 from .forms import BookingForm,FlightForm
 from django.http import JsonResponse
+from .models import Flight 
+
+def delete_flight(request, flight_id):
+    # Retrieve the flight object from the database
+    flight = get_object_or_404(Flight, pk=flight_id)
+
+    if request.method == 'POST':
+        # If the request is a POST request, delete the flight
+        flight.delete()
+        # Redirect to a success URL, such as the manage flights page
+        return redirect('manageflights')
+    else:
+        # If the request is not a POST request, render a confirmation template
+        return render(request, 'confirm_delete_flight.html', {'flight': flight})
+
+def manageflights(request):
+    flights = Flight.objects.all()  # Retrieve all flights from the database
+    return render(request, 'manageflights.html', {'flights': flights})
 
 def new_flight(request):
     if request.method == 'POST':
@@ -85,10 +103,6 @@ def contactus(request):
     return render(request,'contactus.html')
 def user(request):
     return render(request,'user.html')
-# def newflight(request):
-#     return render(request,'newflight.html')
-def manageflights(request):
-    return render(request,'manageflights.html')
 def newairbus(request):
     return render(request,'newairbus.html')
 def accounts(request):
