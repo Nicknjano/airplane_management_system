@@ -12,6 +12,13 @@ from .forms import BookingForm,FlightForm
 from django.http import JsonResponse
 from .models import Flight, Airbus, Booking,Route
 
+
+def home(request):
+    # Get the logged-in user
+    logged_in_user = request.user
+    
+    return render(request, 'home.html', {'logged_in_user': logged_in_user})
+
 def add_airbus(request):
     if request.method == 'POST':
         airbus_no = request.POST.get('airbus_no')
@@ -154,8 +161,9 @@ def booking2(request):
     return render(request,'booking2.html')
 def contactus(request):
     return render(request,'contactus.html')
-def user(request):
-    return render(request,'user.html')
+def booked_flights(request):
+    bookings = Booking.objects.all()
+    return render(request, 'booked_flights.html', {'bookings': bookings})
 def accounts(request):
     if request.method == 'POST':
         email = request.POST.get('email')
