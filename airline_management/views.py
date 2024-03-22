@@ -10,7 +10,7 @@ from django.contrib import messages
 
 from .forms import BookingForm,FlightForm
 from django.http import JsonResponse
-from .models import Flight, Airbus
+from .models import Flight, Airbus, Booking
 
 def add_airbus(request):
     if request.method == 'POST':
@@ -57,19 +57,41 @@ def new_flight(request):
         form = FlightForm()
     return render(request, 'newflight.html', {'form': form})
 
+
 def booking_view(request):
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('booking2')  # Redirect to the next step after successful booking
+            # Access cleaned data from the form
+            class_type = form.cleaned_data['class_type']
+            origin = form.cleaned_data['origin']
+            destination = form.cleaned_data['destination']
+            departure_date = form.cleaned_data['departure_date']
+            return_date = form.cleaned_data['return_date']
+            adults = form.cleaned_data['adults']
+            children = form.cleaned_data['children']
+
+            # Create a new Booking instance and save it
+            booking = Booking(
+                class_type=class_type,
+                origin=origin,
+                destination=destination,
+                departure_date=departure_date,
+                return_date=return_date,
+                adults=adults,
+                children=children
+            )
+            booking.save()
+
+            # Redirect to a success page or render a success message
+            return redirect('itinerary')
         else:
-            # If the form is not valid, render the form with errors
+            # Render the form with validation errors
+            print("Form errors:", form.errors)
             return render(request, 'booking.html', {'form': form})
     else:
         form = BookingForm()
-    return render(request, 'booking.html', {'form': form})
-
+        return render(request, 'booking.html', {'form': form})
 
 
 def create_user(request):
@@ -113,8 +135,6 @@ def index(request):
     return render(request,'index.html')
 def home(request):
     return render(request,'home.html')
-def booking(request):
-    return render(request,'booking.html')
 def booking2(request):
     return render(request,'booking2.html')
 def contactus(request):
