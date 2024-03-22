@@ -96,7 +96,7 @@ class Booking(models.Model):
     return_date = models.DateField(null=True, blank=True)
     adults = models.IntegerField(default=1)
     children = models.IntegerField(default=0)
-
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)  
 
 class Route(models.Model):
     origin = models.CharField(max_length=100)

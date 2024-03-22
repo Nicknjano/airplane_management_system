@@ -10,7 +10,7 @@ from django.contrib import messages
 
 from .forms import BookingForm,FlightForm
 from django.http import JsonResponse
-from .models import Flight, Airbus, Booking
+from .models import Flight, Airbus, Booking,Route
 
 def add_airbus(request):
     if request.method == 'POST':
@@ -62,6 +62,7 @@ def booking_view(request):
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
+            booking = form.save(commit=False)
             # Access cleaned data from the form
             class_type = form.cleaned_data['class_type']
             origin = form.cleaned_data['origin']
@@ -71,16 +72,9 @@ def booking_view(request):
             adults = form.cleaned_data['adults']
             children = form.cleaned_data['children']
 
-            # Create a new Booking instance and save it
-            booking = Booking(
-                class_type=class_type,
-                origin=origin,
-                destination=destination,
-                departure_date=departure_date,
-                return_date=return_date,
-                adults=adults,
-                children=children
-            )
+            # Calculate price based on origin, destination, and number of adults
+            price = calculate_price(origin, destination, adults)
+            booking.price = price
             booking.save()
 
             # Redirect to a success page or render a success message
@@ -93,6 +87,27 @@ def booking_view(request):
         form = BookingForm()
         return render(request, 'booking.html', {'form': form})
 
+def calculate_price(origin, destination, adults):
+    try:
+        # Retrieve the route object from the database based on origin and destination
+        route = Route.objects.get(origin=origin, destination=destination)
+        # Get the price from the route object
+        price = route.price
+        # Calculate total price based on the number of adults
+        total_price = price * adults
+        return total_price
+    except Route.DoesNotExist:
+        # Handle the case where the route does not exist
+        return None
+    
+def calculate_price_view(request):
+    origin = request.GET.get('origin')
+    destination = request.GET.get('destination')
+    adults = int(request.GET.get('adults', 0))  # Ensure adults is an integer
+    
+    price = calculate_price(origin, destination, adults)
+    
+    return JsonResponse({'price': price})
 
 def create_user(request):
     if request.method == 'POST':

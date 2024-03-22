@@ -103,4 +103,40 @@
 			</footer>
 
 	</body>
+    <!-- Add this script at the end of your booking.html template -->
+<script>
+    $(document).ready(function() {
+        // Function to fetch and update the price dynamically
+        function updatePrice() {
+            // Get the selected origin, destination, and number of adults
+            var origin = $('#id_origin').val();
+            var destination = $('#id_destination').val();
+            var adults = $('#id_adults').val();
+    
+            // Make an AJAX request to calculate the price
+            $.ajax({
+                url: "{% url 'calculate_price' %}",
+                type: "GET",
+                data: {
+                    'origin': origin,
+                    'destination': destination,
+                    'adults': adults
+                },
+                success: function(data) {
+                    // Update the price field with the calculated price
+                    $('#id_price').val(data.price);
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log("Error:", errorThrown);
+                }
+            });
+        }
+    
+        // Call the updatePrice function when the origin, destination, or number of adults change
+        $('#id_origin, #id_destination, #id_adults').change(function() {
+            updatePrice();
+        });
+    });
+    </script>
+    
 </html>
