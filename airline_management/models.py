@@ -54,6 +54,8 @@ class Route(models.Model):
     origin = models.CharField(max_length=100)
     destination = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2)  # Assuming price is in decimal format
+    seats_remaining = models.IntegerField()
+    
 
     def __str__(self):
         return f"{self.origin} to {self.destination}"
