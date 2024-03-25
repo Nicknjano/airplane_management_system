@@ -13,13 +13,14 @@ from .forms import BookingForm,FlightForm
 from django.http import JsonResponse
 from .models import Flight, Airbus, Booking,Route
 
+import json
 
 def home(request):
     # Get the logged-in user
     logged_in_user = request.user
     
     return render(request, 'home.html', {'logged_in_user': logged_in_user})
-
+@login_required
 def add_airbus(request):
     if request.method == 'POST':
         airbus_no = request.POST.get('airbus_no')
@@ -33,11 +34,11 @@ def add_airbus(request):
     else:
         # Handle GET requests if needed
         pass
-
+@login_required
 def newairbus(request):
     airbuses = Airbus.objects.all()
     return render(request, 'newairbus.html', {'airbuses': airbuses})
-
+@login_required
 def delete_flight(request, flight_id):
     # Retrieve the flight object from the database
     flight = get_object_or_404(Flight, pk=flight_id)
@@ -50,11 +51,11 @@ def delete_flight(request, flight_id):
     else:
         # If the request is not a POST request, render a confirmation template
         return render(request, 'confirm_delete_flight.html', {'flight': flight})
-
+@login_required
 def manageflights(request):
     flights = Flight.objects.all()  # Retrieve all flights from the database
     return render(request, 'manageflights.html', {'flights': flights})
-
+@login_required
 def new_flight(request):
     if request.method == 'POST':
         form = FlightForm(request.POST)
@@ -71,29 +72,33 @@ def booking_view(request):
         form = BookingForm(request.POST)
         if form.is_valid():
             booking = form.save(commit=False)
-            # Access cleaned data from the form
-            class_type = form.cleaned_data['class_type']
-            origin = form.cleaned_data['origin']
-            destination = form.cleaned_data['destination']
-            departure_date = form.cleaned_data['departure_date']
-            return_date = form.cleaned_data['return_date']
-            adults = form.cleaned_data['adults']
-            children = form.cleaned_data['children']
+            booking.origin = form.cleaned_data['origin']
+            booking.destination = form.cleaned_data['destination']
+            booking.departure_date = form.cleaned_data['departure_date']
+            booking.return_date = form.cleaned_data['return_date']
+            booking.adults = form.cleaned_data['adults']
+            booking.children = form.cleaned_data['children']
 
-            # Calculate price based on origin, destination, and number of adults
-            price = calculate_price(origin, destination, adults)
-            booking.price = price
+            # Save the email of the first person to the database
+            first_person_email = request.POST.get('email_0', '')  # Assuming the first person's email field is named 'email_0'
             booking.save()
 
-            # Redirect to a success page or render a success message
-            return render(request, 'itinerary.html', {'form': form})
+            # Prepare data to be passed to the itinerary template
+            adult_passengers = []
+            for i in range(booking.adults):
+                full_name = request.POST.get(f'full_name_{i}', '')
+                email = request.POST.get(f'email_{i}', '')
+                adult_passengers.append({'full_name': full_name, 'email': email})
+
+            # Render the itinerary template with the relevant data
+            return render(request, 'itinerary.html', {'form': form, 'adult_passengers': adult_passengers})
         else:
-            # Render the form with validation errors
             print("Form errors:", form.errors)
             return render(request, 'booking.html', {'form': form})
     else:
         form = BookingForm()
         return render(request, 'booking.html', {'form': form})
+
 
 def calculate_price(origin, destination, adults):
     try:
@@ -163,36 +168,28 @@ def booking2(request):
     return render(request,'booking2.html')
 def contactus(request):
     return render(request,'contactus.html')
+@login_required
 def booked_flights(request):
     bookings = Booking.objects.all()
     return render(request, 'booked_flights.html', {'bookings': bookings})
-def accounts(request):
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        
-        # Check if user already exists
-        if User.objects.filter(username=username).exists():
-            return JsonResponse({'message': 'User with this username already exists.'})
-        
-        # Create the user
-        user = User.objects.create_user(
-            username=username,
-            email=email,
-            password=password  # Django handles password hashing
-        )
-        
-        if user:
-            return JsonResponse({'message': 'User created successfully.'})
-        else:
-            return JsonResponse({'message': 'Failed to create user.'}, status=500)
-    
-    return render(request, 'accounts.html')
+
 def payement(request):
     return render(request,'payement.html')
+# def itinerary(request, **kwargs):
+#     return render(request, 'itinerary.html', kwargs)
 def itinerary(request, **kwargs):
-    return render(request, 'itinerary.html', kwargs)
+    if request.method == 'POST':
+        adult_passengers = request.POST.get('adult_passengers')
+        # Convert JSON string to Python object
+        adult_passengers = json.loads(adult_passengers)
+        # Assuming you want to pass other context data as well, use kwargs
+        context = {'adult_passengers': adult_passengers}
+        # Pass additional keyword arguments (kwargs) to the template
+        context.update(kwargs)
+        return render(request, 'itinerary.html', context)
+    # Handle GET requests if needed
+    return render(request, 'itinerary.html')
+
 def logout_view(request):
     logout(request)
     return redirect('index')

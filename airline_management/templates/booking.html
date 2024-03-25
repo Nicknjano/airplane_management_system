@@ -77,7 +77,8 @@
 									<form method="post" class="form-inline">
                                         {% csrf_token %}
                                         {{ form.as_p }}
-                                        <button type="submit">Submit</button>
+										<div id="passengerFields"></div> 
+                                        <button type="submitBtn">Submit</button>
                                     </form>
 								</div>
 							</div>
@@ -104,39 +105,89 @@
 
 	</body>
     <!-- Add this script at the end of your booking.html template -->
-<script>
-    $(document).ready(function() {
-        // Function to fetch and update the price dynamically
-        function updatePrice() {
-            // Get the selected origin, destination, and number of adults
-            var origin = $('#id_origin').val();
-            var destination = $('#id_destination').val();
-            var adults = $('#id_adults').val();
-    
-            // Make an AJAX request to calculate the price
-            $.ajax({
-                url: "{% url 'calculate_price' %}",
-                type: "GET",
-                data: {
-                    'origin': origin,
-                    'destination': destination,
-                    'adults': adults
-                },
-                success: function(data) {
-                    // Update the price field with the calculated price
-                    $('#id_price').val(data.price);
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                    console.log("Error:", errorThrown);
-                }
-            });
-        }
-    
-        // Call the updatePrice function when the origin, destination, or number of adults change
-        $('#id_origin, #id_destination, #id_adults').change(function() {
-            updatePrice();
-        });
-    });
-    </script>
+	<script>
+		$(document).ready(function() {
+			// Function to fetch and update the price dynamically
+			function updatePrice() {
+				// Get the selected origin, destination, and number of adults
+				var origin = $('#id_origin').val();
+				var destination = $('#id_destination').val();
+				var adults = $('#id_adults').val();
+	
+				// Make an AJAX request to calculate the price
+				$.ajax({
+					url: "{% url 'calculate_price' %}",
+					type: "GET",
+					data: {
+						'origin': origin,
+						'destination': destination,
+						'adults': adults
+					},
+					success: function(data) {
+						// Update the price field with the calculated price
+						$('#id_price').val(data.price);
+					},
+					error: function(xhr, textStatus, errorThrown) {
+						console.log("Error:", errorThrown);
+					}
+				});
+			}
+	
+			// Call the updatePrice function when the origin, destination, or number of adults change
+			$('#id_origin, #id_destination, #id_adults').change(function() {
+				updatePrice();
+				var numAdults = parseInt($('#id_adults').val());
+				addPassengerFields(numAdults);
+			});
+	
+			// Function to add fields for passenger details
+			function addPassengerFields(numAdults) {
+				var html = '';
+				for (var i = 0; i < numAdults; i++) {
+					html += '<div class="passenger-details">';
+					html += '<label for="id_full_name_' + i + '">Full Name:</label>';
+					html += '<input type="text" id="id_full_name_' + i + '" name="full_name_' + i + '" class="full-name" required>';
+					html += '<label for="id_email_' + i + '">Email:</label>';
+					html += '<input type="email" id="id_email_' + i + '" name="email_' + i + '" class="email" required>';
+					html += '</div>';
+				}
+				$('#passengerFields').html(html);
+			}
+	
+			// Call addPassengerFields on page load
+			var numAdults = parseInt($('#id_adults').val());
+			addPassengerFields(numAdults);
+	
+			// Function to extract full name and email fields and send them to the itinerary page
+			$('#submitBtn').click(function() {
+				var adultPassengers = [];
+				$('.passenger-details').each(function() {
+					var fullName = $(this).find('.full-name').val();
+					var email = $(this).find('.email').val();
+					if (fullName && email) { // Validate fields
+						adultPassengers.push({
+							'full_name': fullName,
+							'email': email
+						});
+					}
+				});
+				// Send the adult passenger details to the itinerary page
+				$.ajax({
+					url: "{% url 'itinerary' %}",
+					type: "POST",
+					data: {
+						'adult_passengers': JSON.stringify(adultPassengers)
+					},
+					success: function(response) {
+						// Redirect to the itinerary page
+						window.location.href = response.redirect_url;
+					},
+					error: function(xhr, textStatus, errorThrown) {
+						console.log("Error:", errorThrown);
+					}
+				});
+			});
+		});
+	</script>			
     
 </html>

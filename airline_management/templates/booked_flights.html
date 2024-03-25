@@ -87,7 +87,7 @@
         <div class="container-fluid" style="float: right; width: 80%">
             <h2>Users</h2>
             <hr>
-            <div class="container" style="margin-left: 0; float: right; width:80%; margin-top: 10px; padding: 0 5rem 0 5rem">
+            <div class="container" style="margin-left: 0; float: right; width:80%; margin-top: 10px; padding: 0">
                 <div>
                     <a href="{% url 'booking' %}"><button class="btn btn-primary" id="newUserBtn"><i class="fa fa-plus"></i>New Booking</button></a>
                 </div>
@@ -104,8 +104,8 @@
                             <th>Adults</th>
                             <th>Children</th>
                             <th>Price</th>
-                            <th>Ticket#</th>
                             <th>email</th>
+                            <th>payment status</th>
                         </tr>
                     </thead>
                     <tbody id="userTableBody">
@@ -120,6 +120,8 @@
                             <td>{{ booking.adults }}</td>
                             <td>{{ booking.children }}</td>
                             <td>{{ booking.price }}</td>
+                            <td>{{ booking.email }}</td>
+                            <td>{{ booking.payment_status }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>

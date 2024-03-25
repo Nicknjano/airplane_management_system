@@ -53,6 +53,10 @@ class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = '__all__'
+        exclude = ['payment_status'] 
+        labels = {
+            'email': "Ticket Holder's Email"  # Rename the label of the email field
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
