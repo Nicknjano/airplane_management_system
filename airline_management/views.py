@@ -1,7 +1,8 @@
 
 from django.shortcuts import render,redirect,get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .forms import SignupForm,LoginForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import make_password
@@ -85,7 +86,7 @@ def booking_view(request):
             booking.save()
 
             # Redirect to a success page or render a success message
-            return redirect('itinerary')
+            return render(request, 'itinerary.html', {'form': form})
         else:
             # Render the form with validation errors
             print("Form errors:", form.errors)
@@ -155,6 +156,7 @@ def login_user(request):
     return render(request, 'login.html', {'form': form}) 
 def index(request):
     return render(request,'index.html')
+@login_required
 def home(request):
     return render(request,'home.html')
 def booking2(request):
@@ -189,5 +191,8 @@ def accounts(request):
     return render(request, 'accounts.html')
 def payement(request):
     return render(request,'payement.html')
-def itinerary(request):
-    return render(request,'itinerary.html')
+def itinerary(request, **kwargs):
+    return render(request, 'itinerary.html', kwargs)
+def logout_view(request):
+    logout(request)
+    return redirect('index')
