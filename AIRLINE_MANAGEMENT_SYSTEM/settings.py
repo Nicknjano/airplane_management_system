@@ -128,3 +128,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 PAYPAL_CLIENT_ID = 'AZVp2r6zkRVQVfMGGo8n_Ef2h1jLmR9O5b6a8Ahz_Yn33NPsbrmSsnqsGNNTgMhQqIuV1Qz2WtpgaNJG'
 PAYPAL_SECRET_KEY = 'EP3umgN43Z7RgYJy3Sc5v9on34LZ4SaRNUCBiOaKfbPUYQUEvQRQLC6C0nhQB_H8peFfIKLswzirlBaF'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'skyops34@gmail.com'  # Your Gmail address
+EMAIL_HOST_PASSWORD = 'zfpouwfmsosynkcq'  # Your Gmail password or app password
+DEFAULT_FROM_EMAIL = 'skyops34@gmail.com'  # Your Gmail address

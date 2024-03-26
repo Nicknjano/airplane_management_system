@@ -21,6 +21,39 @@ from django.conf import settings
 from paypalrestsdk import Payment
 from .models import Booking
 
+
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from .models import Booking  # Import the Booking model
+
+def send_itinerary_email(request, booking_id):
+    booking = Booking.objects.get(id=booking_id)
+
+    # Render the itinerary HTML template to a string
+    itinerary_html = render_to_string('itinerary.html', {'form': booking})
+
+    # Extract plaintext from HTML for the email body
+    itinerary_text = strip_tags(itinerary_html)
+
+    # Print the itinerary text (for debugging)
+    print("Itinerary Text:")
+    print(itinerary_text)
+
+    # Print the itinerary HTML (for debugging)
+    print("Itinerary HTML:")
+    print(itinerary_html)
+
+    # Send email with itinerary details
+    send_mail(
+        'Your Flight Itinerary',
+        itinerary_text,
+        'skyops34@gmail.com',  # Change this to your sender email address
+        [booking.email],  # Send to the email specified in the booking
+        html_message=itinerary_html,
+    )
+
+
 def initiate_payment(request, booking_id):
     booking = Booking.objects.get(id=booking_id)
     total_price = booking.price
@@ -70,9 +103,16 @@ def execute_payment(request):
             booking = Booking.objects.get(id=booking_id)
             booking.payment_status = 'paid'
             booking.save()
-        return HttpResponse("Payment executed successfully")
+        
+        # Retrieve necessary data from the session
+        itinerary_data = request.session.get('itinerary_data', {})
+        
+        # Render the payment success template with necessary data
+        return render(request, 'payment_success.html', itinerary_data)
     else:
-        return HttpResponse("Payment execution failed")
+        # Optionally, you can pass any additional context data to the template
+        return render(request, 'payment_success.html')
+
 
 
 def cancel_payment(request):
@@ -247,13 +287,15 @@ def itinerary(request, **kwargs):
         adult_passengers = request.POST.get('adult_passengers')
         # Convert JSON string to Python object
         adult_passengers = json.loads(adult_passengers)
-        # Assuming you want to pass other context data as well, use kwargs
-        context = {'adult_passengers': adult_passengers}
-        # Pass additional keyword arguments (kwargs) to the template
-        context.update(kwargs)
-        return render(request, 'itinerary.html', context)
+        # Store necessary data in the session
+        request.session['itinerary_data'] = {
+            'adult_passengers': adult_passengers,
+            # Add any other data you want to pass to the payment success page
+        }
+        return render(request, 'itinerary.html', {'adult_passengers': adult_passengers})
     # Handle GET requests if needed
     return render(request, 'itinerary.html')
+
 
 def logout_view(request):
     logout(request)
