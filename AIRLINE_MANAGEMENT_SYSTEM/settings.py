@@ -125,3 +125,6 @@ LOGIN_URL = '/login/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+PAYPAL_CLIENT_ID = 'AZVp2r6zkRVQVfMGGo8n_Ef2h1jLmR9O5b6a8Ahz_Yn33NPsbrmSsnqsGNNTgMhQqIuV1Qz2WtpgaNJG'
+PAYPAL_SECRET_KEY = 'EP3umgN43Z7RgYJy3Sc5v9on34LZ4SaRNUCBiOaKfbPUYQUEvQRQLC6C0nhQB_H8peFfIKLswzirlBaF'

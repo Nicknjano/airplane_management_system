@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from airline_management import views
 from airline_management.views import index,home,booking_view,booking2,contactus,booked_flights,new_flight,manageflights,newairbus,payement,login_user,itinerary,delete_flight,add_airbus,calculate_price_view,logout_view
 
 urlpatterns = [
@@ -36,4 +37,7 @@ urlpatterns = [
     path('newairbus/',newairbus,name='newairbus'),
     path('payement/',payement,name='payement'),
     path("admin/", admin.site.urls),
+    path('payment/initiate/<int:booking_id>/', views.initiate_payment, name='initiate_payment'),
+    path('payment/execute/', views.execute_payment, name='execute_payment'),
+    path('payment/cancel/', views.cancel_payment, name='cancel_payment'),
 ]

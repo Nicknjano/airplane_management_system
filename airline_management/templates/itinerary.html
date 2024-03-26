@@ -114,11 +114,10 @@
         <br>
         <br>
 
-        <div class="col-sm-12 col-sm-offset-0">
-            <button class="btn btn-primary btn-block trans-input-area" href="{% url 'payement' %}" type="submit"  style="height: 7rem; ;text-align: center;"  >
-                <a href="{% url 'payement' %}" style="color:white"><h4>Proceed to Payment</h4></a>
-            </button>
-        </div>
+        <form action="{% url 'initiate_payment' booking.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Pay with PayPal</button>
+        </form>
         <br>
         <br>
     </div>

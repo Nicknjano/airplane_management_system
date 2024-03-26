@@ -14,6 +14,70 @@ from django.http import JsonResponse
 from .models import Flight, Airbus, Booking,Route
 
 import json
+import paypalrestsdk
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.conf import settings
+from paypalrestsdk import Payment
+from .models import Booking
+
+def initiate_payment(request, booking_id):
+    booking = Booking.objects.get(id=booking_id)
+    total_price = booking.price
+
+    paypalrestsdk.configure({
+        "mode": "sandbox",  # Change to "live" in production
+        "client_id": settings.PAYPAL_CLIENT_ID,
+        "client_secret": settings.PAYPAL_SECRET_KEY,
+    })
+
+    payment = Payment({
+        "intent": "sale",
+        "payer": {
+            "payment_method": "paypal"
+        },
+        "redirect_urls": {
+            "return_url": request.build_absolute_uri(reverse('execute_payment')),
+            "cancel_url": request.build_absolute_uri(reverse('cancel_payment')),
+        },
+        "transactions": [{
+            "amount": {
+                "total": str(total_price),
+                "currency": "USD"
+            },
+            "description": "Flight Booking"
+        }]
+    })
+
+    if payment.create():
+        for link in payment.links:
+            if link.method == "REDIRECT":
+                redirect_url = str(link.href)
+                return redirect(redirect_url)
+    else:
+        return HttpResponse("Payment creation failed")
+
+def execute_payment(request):
+    payment_id = request.GET.get("paymentId")
+    payer_id = request.GET.get("PayerID")
+
+    payment = Payment.find(payment_id)
+
+    if payment.execute({"payer_id": payer_id}):
+        # Update booking payment status
+        booking_id = request.session.get('booking_id')
+        if booking_id:
+            booking = Booking.objects.get(id=booking_id)
+            booking.payment_status = 'paid'
+            booking.save()
+        return HttpResponse("Payment executed successfully")
+    else:
+        return HttpResponse("Payment execution failed")
+
+
+def cancel_payment(request):
+    return HttpResponse("Payment cancelled")
+
 
 def home(request):
     # Get the logged-in user
@@ -78,9 +142,9 @@ def booking_view(request):
             booking.return_date = form.cleaned_data['return_date']
             booking.adults = form.cleaned_data['adults']
             booking.children = form.cleaned_data['children']
-
-            # Save the email of the first person to the database
-            first_person_email = request.POST.get('email_0', '')  # Assuming the first person's email field is named 'email_0'
+            
+            # Calculate the price and save it to the booking
+            booking.price = calculate_price(booking.origin, booking.destination, booking.adults)
             booking.save()
 
             # Prepare data to be passed to the itinerary template
@@ -91,13 +155,14 @@ def booking_view(request):
                 adult_passengers.append({'full_name': full_name, 'email': email})
 
             # Render the itinerary template with the relevant data
-            return render(request, 'itinerary.html', {'form': form, 'adult_passengers': adult_passengers})
+            return render(request, 'itinerary.html', {'form': form, 'booking': booking, 'adult_passengers': adult_passengers})
         else:
             print("Form errors:", form.errors)
             return render(request, 'booking.html', {'form': form})
     else:
         form = BookingForm()
         return render(request, 'booking.html', {'form': form})
+
 
 
 def calculate_price(origin, destination, adults):
