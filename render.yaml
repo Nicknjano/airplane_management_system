@@ -1,0 +1,9 @@
+services:
+  - name: web
+    envVars:
+      DJANGO_SETTINGS_MODULE: "DataForge.settings"
+    buildCommand: python manage.py migrate
+    startCommand: gunicorn DataForge.wsgi:app -b 0.0.0.0:$PORT
+  - name: static
+    buildCommand: python manage.py collectstatic --noinput
+    staticPublishPath: "/static"
