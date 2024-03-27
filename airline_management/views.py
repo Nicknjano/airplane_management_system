@@ -8,11 +8,11 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse,JsonResponse
 from django.contrib import messages
-
+import pdfkit
 from .forms import BookingForm,FlightForm
 from django.http import JsonResponse
 from .models import Flight, Airbus, Booking,Route
-
+from django.template.loader import render_to_string
 import json
 import paypalrestsdk
 from django.shortcuts import render, redirect
@@ -26,6 +26,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from .models import Booking  # Import the Booking model
+
 
 def send_itinerary_email(request, booking_id):
     booking = Booking.objects.get(id=booking_id)
@@ -300,3 +301,62 @@ def itinerary(request, **kwargs):
 def logout_view(request):
     logout(request)
     return redirect('index')
+
+
+
+def payment_success(request):
+    # Assuming you have the necessary data available, fetch it here
+    form_data = {
+        'origin': 'Your Origin',
+        'destination': 'Your Destination',
+        'departure_date': 'Your Departure Date',
+        'return_date': 'Your Return Date',
+        'adults': 'Number of Adults',
+        'children': 'Number of Children',
+        'adult_passengers': [
+            {'full_name': 'Passenger 1 Full Name', 'email': 'Passenger 1 Email'},
+            {'full_name': 'Passenger 2 Full Name', 'email': 'Passenger 2 Email'},
+            # Add more passengers if needed
+        ]
+    }
+
+    # Render the HTML template with the form data
+    html_content = render_to_string('booking_details_template.html', form_data)
+
+    # Generate PDF from HTML content
+    pdf = pdfkit.from_string(html_content, False)
+
+    # Create HTTP response with PDF attachment
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="booking_details.pdf"'
+
+    return response
+
+
+def payment_success_pdf(request):
+    # Assuming you have the necessary data available, fetch it here
+    form_data = {
+        'origin': 'Your Origin',
+        'destination': 'Your Destination',
+        'departure_date': 'Your Departure Date',
+        'return_date': 'Your Return Date',
+        'adults': 'Number of Adults',
+        'children': 'Number of Children',
+        'adult_passengers': [
+            {'full_name': 'Passenger 1 Full Name', 'email': 'Passenger 1 Email'},
+            {'full_name': 'Passenger 2 Full Name', 'email': 'Passenger 2 Email'},
+            # Add more passengers if needed
+        ]
+    }
+
+    # Render the HTML template with the form data
+    html_content = render_to_string('booking_details_template.html', form_data)
+
+    # Generate PDF from HTML content
+    pdf = pdfkit.from_string(html_content, False)
+
+    # Create HTTP response with PDF attachment
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="booking_details.pdf"'
+
+    return response

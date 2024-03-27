@@ -1,0 +1,135 @@
+/* Global Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #0b0b0b;
+}
+
+.container-fluid {
+    padding: 20px;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #333;
+    border-radius: 0 !important;
+    margin: 0;
+}
+
+.navbar-brand {
+    color: #fff;
+    font-size: 24px;
+}
+
+.navbar-nav > li > a {
+    color: #fff;
+}
+
+.navbar-nav > li > a:hover,
+.navbar-nav > li.active > a {
+    background-color: #555;
+}
+
+.navbar-toggle {
+    background-color: #fff;
+}
+
+.navbar-toggle .icon-bar {
+    background-color: #333;
+}
+
+/* Header Styles */
+header {
+    text-align: center;
+    color: #fff;
+    margin-top: 50px;
+}
+
+header h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+/* Panel Styles */
+.panel-group {
+    margin-top: 30px;
+}
+
+.panel {
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    border: none;
+}
+
+.panel-heading {
+    background-color: #0d0c0c;
+    color: #fff;
+    text-align: center;
+    border-radius: 10px 10px 0 0;
+}
+
+.panel-body {
+    padding: 30px;
+    background-color: #000000;
+}
+
+/* Form Styles */
+.form-control {
+    border-radius: 0;
+    color: #555;
+    background-color: #000000;
+    border: 1px solid #ccc; /* Add border for better visibility */
+}
+
+.form-control:focus {
+    border-color: #333; /* Change border color on focus */
+}
+
+.form-inline  {
+    margin-bottom: 20px; /* Adjust margin for better alignment */
+    display: inline-block; /* Ensure inline display for form groups */
+    background-color: #000000;
+}
+
+/* Button Styles */
+.btn-default {
+    background-color: #333;
+    color: #fff;
+    border-radius: 0;
+    border: none;
+}
+
+.btn-default:hover,
+.btn-default:focus {
+    background-color: #555;
+    color: #fff;
+}
+
+/* Footer Styles */
+#footer {
+    background-color: #333;
+    color: #ccc;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.icons li {
+    display: inline;
+    margin-right: 10px;
+}
+
+.fa {
+    font-size: 24px;
+    color: #ccc;
+}
+
+.fa:hover {
+    color: #fff;
+}
+
+.panel.panel-default.panel-transparent {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    background-color: #000000;
+}

@@ -115,3 +115,95 @@
 		text-align: center;
 	};
 
+
+	body {
+		font-family: 'Poppins', sans-serif;
+		background-color: #f8f9fa;
+	}
+	
+	.container {
+		margin-top: 50px;
+	}
+	
+	.card {
+		border: 1px solid #ddd;
+		border-radius: 10px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		background-color: #fff;
+	}
+	
+	.card-title {
+		font-size: 24px;
+		font-weight: bold;
+		color: #28a745; /* Success color */
+	}
+	
+	.card-text {
+		font-size: 18px;
+		color: #333;
+	}
+	
+	h3 {
+		font-size: 20px;
+		font-weight: bold;
+		margin-top: 20px;
+		color: #333;
+	}
+	
+	h4 {
+		font-size: 18px;
+		font-weight: bold;
+		margin-top: 20px;
+		color: #333;
+	}
+	
+	ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	
+	li {
+		font-size: 16px;
+		color: #555;
+		margin-bottom: 10px;
+	}
+	
+	/* Button Style */
+	.btn {
+		display: inline-block;
+		padding: 10px 20px;
+		border: none;
+		border-radius: 5px;
+		background-color: #007bff; /* Bootstrap primary color */
+		color: #fff;
+		text-align: center;
+		text-decoration: none;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+	
+	.btn:hover {
+		background-color: #0056b3; /* Darker shade of primary color */
+	}
+	
+	.btn:focus {
+		outline: none;
+	}
+	
+	/* Responsive Styling */
+	@media (max-width: 768px) {
+		.container {
+			margin-top: 20px;
+		}
+	
+		.card {
+			border-radius: 0;
+		}
+	
+		.card-body {
+			padding: 20px;
+		}
+	}
+	
+

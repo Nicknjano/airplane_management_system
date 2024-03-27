@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Details</title>
+</head>
+<body>
+    <h2>Booking Details</h2>
+    <p>Origin: {{ origin }}</p>
+    <p>Destination: {{ destination }}</p>
+    <p>Departure Date: {{ departure_date }}</p>
+    <p>Return Date: {{ return_date }}</p>
+    <p>Adults: {{ adults }}</p>
+    <p>Children: {{ children }}</p>
+    <!-- Loop through adult passengers and display their details -->
+    <h4>Passenger Information:</h4>
+    <ul>
+        {% for passenger in adult_passengers %}
+        <li>Full Name: {{ passenger.full_name }}</li>
+        <li>Email: {{ passenger.email }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

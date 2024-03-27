@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Success</title>
     <link rel="stylesheet" href="{% static 'css/mycss.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="{% static 'js/myjs.js' %}"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Poppins">
 </head>
 <body>
     <div class="container">
@@ -15,22 +22,11 @@
                     <div class="card-body">
                         <h2 class="card-title text-success">Payment Successful!</h2>
                         <p class="card-text">Thank you for your payment. Your transaction has been successfully processed.</p>
-                        <!-- Display itinerary details here -->
-                        <h3>Itinerary Details:</h3>
-                        <p>Origin: {{ form.origin.value }}</p>
-                        <p>Destination: {{ form.destination.value }}</p>
-                        <p>Departure Date: {{ form.departure_date.value }}</p>
-                        <p>Return Date: {{ form.return_date.value }}</p>
-                        <p>Adults: {{ form.adults.value }}</p>
-                        <p>Children: {{ form.children.value }}</p>
-                        <!-- Loop through adult passengers and display their details -->
-                        <h4>Passenger Information:</h4>
-                        <ul>
-                            {% for passenger in adult_passengers %}
-                            <li>Full Name: {{ passenger.full_name }}</li>
-                            <li>Email: {{ passenger.email }}</li>
-                            {% endfor %}
+                        
                         </ul>
+
+                     
+
                     </div>
                 </div>
             </div>

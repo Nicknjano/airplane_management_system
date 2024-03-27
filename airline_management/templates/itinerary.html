@@ -1,30 +1,25 @@
 {% load static %}
 <!DOCTYPE HTML>
-
 <html>
 <head>
     <title>Itinerary</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="{% static 'js/myjs.js' %}"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Poppins">
-    <link rel="stylesheet" href="{% static 'css/mycss.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-<nav class="navbar navbar-inverse" style="border-radius:0px !important; margin:0;border: 0">
-    <div class="container-fluid">
-        <div href="{% url 'index' %}" style="text-align: center;color: white">
-            <h2>SkyOps</h2>
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <div>
+            <h2 class="h2" >SkyOps</h2>
         </div>
     </div>
 </nav>
 
 <div class="background-wrapper" style="background-image: url(images/airline/ii.jpg);">
-    <div class="container-fluid">
+    <div class="container">
         <header>
             <h2>Flight Itinerary</h2>
             <hr>
@@ -35,11 +30,11 @@
             <div class="panel-group">
                 <div class="panel panel-default panel-transparent">
                     <div class="panel-heading">
-                        <legend style="text-align: center;color: black">Departure Information</legend>
+                        <legend>Departure Information</legend>
                     </div>
 
                     <div class="panel-body">
-                        <table class="table table-hover" style="color: black; font-size: 20px">
+                        <table class="table table-hover">
                             <thead>
                             <tr>
                                 <th>Class</th>
@@ -69,68 +64,60 @@
                 </div>
             </div>
         </div>
-        <br>
 
         <!-- Passenger Information -->
-<div class="col-sm-12 col-sm-offset-0">
-    <div class="panel-group">
-        <div class="panel panel-default panel-transparent">
-            <div class="panel-heading">
-                <legend style="text-align: center; color: black">Passenger Information</legend>
-            </div>
+        <div class="col-sm-12 col-sm-offset-0">
+            <div class="panel-group">
+                <div class="panel panel-default panel-transparent">
+                    <div class="panel-heading">
+                        <legend>Passenger Information</legend>
+                    </div>
 
-            <div class="panel-body">
-                <table class="table table-hover"  style="color: black; font-size: 20px">
-                    <thead>
-                    <tr>
-                        <th>Full Name</th>
-                        <th>Email</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for passenger in adult_passengers %}
-                        <tr>
-                            <td>{{ passenger.full_name }}</td>
-                            <td>{{ passenger.email }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for passenger in adult_passengers %}
+                                <tr>
+                                    <td>{{ passenger.full_name }}</td>
+                                    <td>{{ passenger.email }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-
-
-
-        <br>
 
         <!-- Total Cost and Proceed to Payment -->
         <div class="col-sm-12 col-sm-offset-0">
-            <div class="trans-input-area well" style=" width: 100%; padding: 1rem  ;text-align:center;">
+            <div class="trans-input-area">
                 <h2>Total Cost: {{ form.price.value }}</h2>
             </div>
         </div>
-        <br>
-        <br>
-
-        <form action="{% url 'initiate_payment' booking.id %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Pay with PayPal</button>
-        </form>
-        <br>
-        <br>
+        <div class="col-sm-12 col-sm-offset-0">
+            <form action="{% url 'initiate_payment' booking.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Pay with PayPal</button>
+            </form>
+        </div>
     </div>
 </div>
 
 <!-- Footer -->
 <footer id="footer">
-    <div class="container-fluid">
+    <div class="container">
         <ul class="icons">
-            <li><a href="#" class="fa fa-twitter" style="color: grey"></a></li>
-            <li><a href="#" class="fa fa-facebook" style="color: grey"></a></li>
-            <li><a href="#" class="fa fa-instagram" style="color: grey"></a></li>
-            <li><a href="#" class="fa fa-envelope" style="color: grey"></a></li>
+            <li><a href="#" class="fa fa-twitter"></a></li>
+            <li><a href="#" class="fa fa-facebook"></a></li>
+            <li><a href="#" class="fa fa-instagram"></a></li>
+            <li><a href="#" class="fa fa-envelope"></a></li>
         </ul>
     </div>
     <div class="copyright">

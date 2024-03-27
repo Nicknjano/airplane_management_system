@@ -39,7 +39,7 @@ class Booking(models.Model):
     children = models.IntegerField(default=0)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     email = models.EmailField()
-    payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS_CHOICES, default='not_paid')
+    payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS_CHOICES, default='paid')
 
     def save(self, *args, **kwargs):
         # Save the email of the first person if it's not already set
