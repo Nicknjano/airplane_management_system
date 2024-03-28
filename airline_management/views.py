@@ -91,6 +91,7 @@ def initiate_payment(request, booking_id):
     else:
         return HttpResponse("Payment creation failed")
 
+
 def execute_payment(request):
     payment_id = request.GET.get("paymentId")
     payer_id = request.GET.get("PayerID")
@@ -98,21 +99,22 @@ def execute_payment(request):
     payment = Payment.find(payment_id)
 
     if payment.execute({"payer_id": payer_id}):
-        # Update booking payment status
-        booking_id = request.session.get('booking_id')
-        if booking_id:
-            booking = Booking.objects.get(id=booking_id)
+        # Fetch the last booking from the database
+        booking = Booking.objects.last()
+        
+        if booking:
+            # Update booking payment status
             booking.payment_status = 'paid'
             booking.save()
-        
-        # Retrieve necessary data from the session
-        itinerary_data = request.session.get('itinerary_data', {})
-        
-        # Render the payment success template with necessary data
-        return render(request, 'payment_success.html', itinerary_data)
+
+            # Pass the booking details to the template
+            return render(request, 'payment_success.html', {'booking': booking})
+        else:
+            # Handle the case where no booking is found
+            return HttpResponse("No booking found.")
     else:
-        # Optionally, you can pass any additional context data to the template
-        return render(request, 'payment_success.html')
+        # Handle the case where payment execution fails
+        return HttpResponse("Payment execution failed.")
 
 
 
