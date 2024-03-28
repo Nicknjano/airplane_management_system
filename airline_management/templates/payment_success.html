@@ -22,12 +22,27 @@
                     <div class="card-body">
                         <h2 class="card-title text-success">Payment Successful!</h2>
                         <p class="card-text">Thank you for your payment. Your transaction has been successfully processed.</p>
-                        
+                        <!-- Display itinerary details here -->
+                        <h3>Itinerary Details:</h3>
+                        <p>Origin: {{ form.origin.value }}</p>
+                        <p>Destination: {{ form.destination.value }}</p>
+                        <p>Departure Date: {{ form.departure_date.value }}</p>
+                        <p>Return Date: {{ form.return_date.value }}</p>
+                        <p>Adults: {{ form.adults.value }}</p>
+                        <p>Children: {{ form.children.value }}</p>
+                        <!-- Loop through adult passengers and display their details -->
+                        <h4>Passenger Information:</h4>
+                        <ul>
+                            {% for passenger in adult_passengers %}
+                            <li>Full Name: {{ passenger.full_name }}</li>
+                            <li>Email: {{ passenger.email }}</li>
+                            {% endfor %}
                         </ul>
 
                      
 
                     </div>
+                    
                 </div>
             </div>
         </div>
